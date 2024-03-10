@@ -12,13 +12,17 @@ enum CityIds {
 
 type FavoriteCitiesState = {
   favoriteCitiesIds: number[];
+  // TODO: do we want this to be a map?
+  favoriteCityWeatherData: any[];
   addFavoriteCityId: (cityId: number) => void;
   removeFavoriteCityId: (cityId: number) => void;
+  setFavoriteCitiesWeatherData: (weatherData: any) => void;
 };
 
 // Initial Cities in Favorites List if user hasn't added/removed any.
 const initialState = {
   favoriteCitiesIds: [CityIds.LONDON, CityIds.SEOUL, CityIds.VANCOUVER],
+  favoriteCityWeatherData: [],
 };
 
 // Persisting Favorite Cities Ids in Local Storage
@@ -36,10 +40,17 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
             (id) => id !== cityId
           ),
         })),
+      setFavoriteCitiesWeatherData: (weatherData: any) => {
+        set(() => ({
+          favoriteCityWeatherData: weatherData,
+        }));
+      },
     }),
     {
       name: "favorite-city-ids",
       getStorage: () => localStorage,
+      // Only store favorite city ids in local storage
+      partialize: (state) => ({ favoriteCitiesIds: state.favoriteCitiesIds }),
     }
   )
 );

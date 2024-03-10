@@ -20,8 +20,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // TODO: Make units optional c or f
   const res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${apiKey}`,
+    `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${apiKey}&units=metric`,
     {
       // Revalidate every 60 seconds
       next: { revalidate: 60 },

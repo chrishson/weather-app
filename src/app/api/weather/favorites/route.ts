@@ -2,6 +2,7 @@ import { type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const apiKey = process.env.OPENWEATHER_API_KEY;
+  console.log(request.nextUrl, "request.nextUrl.")
   const searchParams = request.nextUrl.searchParams;
   const cityCodes = searchParams.get("city_codes");
 
@@ -16,8 +17,9 @@ export async function GET(request: NextRequest) {
     return Response.json({ message: "City codes missing." }, { status: 400 });
   }
 
+  // TODO: Make units optional c or f
   const res = await fetch(
-    `http://api.openweathermap.org/data/2.5/group?id=${cityCodes}&appid=${apiKey}`,
+    `http://api.openweathermap.org/data/2.5/group?id=${cityCodes}&appid=${apiKey}&units=metric`,
     {
       // Revalidate every 60 seconds
       next: { revalidate: 60 },

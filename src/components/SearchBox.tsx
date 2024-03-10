@@ -9,9 +9,12 @@ export default function SearchBox() {
   const { setWeatherData } = useFocusedWeatherState();
   const [value, setValue] = useState("");
 
-  const fetchData = async (city: string) => {
+  // TODO: Implement Geo Suggestion Search
+  // TODO: Extract into Util function
+  const fetchWeatherData = async (city: string) => {
     const response = await fetch(
-      `/api/weather/search?city=${city}&country_code=CA`
+      // `/api/weather/search?city=${city}&country_code=CA`
+      `/api/weather/search?city=${city}`
     );
 
     const data = await response.json();
@@ -24,7 +27,7 @@ export default function SearchBox() {
   };
 
   const handleClick = () => {
-    fetchData(value);
+    fetchWeatherData(value);
   };
 
   return (
