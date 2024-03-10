@@ -2,7 +2,6 @@ import { type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const apiKey = process.env.OPENWEATHER_API_KEY;
-  console.log(request.nextUrl, "request.nextUrl.")
   const searchParams = request.nextUrl.searchParams;
   const cityCodes = searchParams.get("city_codes");
 
