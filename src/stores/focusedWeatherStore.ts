@@ -1,17 +1,17 @@
 import { create } from "zustand";
+import { CityWeather } from "./types";
 
 type FocusedWeatherState = {
-  // TODO: Add Typing for Open Weather API Response
-  weatherData: any;
-  setWeatherData: (data: any) => void;
+  cityWeather: CityWeather | null;
+  setCityWeatherData: (data: CityWeather) => void;
 };
 
 export const useFocusedWeatherState = create<FocusedWeatherState>()((set) => ({
-  weatherData: null,
+  cityWeather: null,
 
-  setWeatherData: (data) =>
+  setCityWeatherData: (data) =>
     set((state) => ({
       ...state,
-      weatherData: data,
+      cityWeather: data,
     })),
 }));

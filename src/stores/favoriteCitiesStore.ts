@@ -1,13 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { CityWeather, FavoriteCity } from "./types";
 
 // TODO: Put Limit on Favorite Cities
-// TODO: Prevent Duplicates. Prevent Click if Already Favorite.
 
 type FavoriteCitiesState = {
-  // TODO: FIX TYPINGS
-  favoriteCities: any[];
-  favoriteCitiesWeather: any[];
+  favoriteCities: FavoriteCity[];
+  favoriteCitiesWeather: CityWeather[];
   addFavoriteCity: (
     cityName: string,
     countryShortName: string,
@@ -15,11 +14,14 @@ type FavoriteCitiesState = {
     lon: number
   ) => void;
   removeFavoriteCity: (cityName: string, countryShortName: string) => void;
-  setFavoriteCitiesWeather: (weatherData: any[]) => void;
+  setFavoriteCitiesWeather: (weatherData: CityWeather[]) => void;
 };
 
 // Initial Cities in Favorites List if user hasn't added/removed any.
-const initialState = {
+const initialState: {
+  favoriteCities: FavoriteCity[];
+  favoriteCitiesWeather: CityWeather[];
+} = {
   favoriteCities: [
     {
       cityName: "Seoul",
@@ -43,6 +45,11 @@ const initialState = {
   favoriteCitiesWeather: [],
 };
 
+// TODO: Extract Util function to get unique city/country code.
+const getCityCountryCode = (cityName: string, countryShortName: string) => {
+  return `${cityName}-${countryShortName}`;
+};
+
 // Persisting Favorite Cities in Local Storage
 export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
   persist(
@@ -58,9 +65,9 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
           // Prevent duplicate city/country from being added.
           if (
             !state.favoriteCities.some(
-              (city: any) =>
-                city.cityName === cityName &&
-                city.countryShortName === countryShortName
+              (favoriteCity: FavoriteCity) =>
+                favoriteCity.cityName === cityName &&
+                favoriteCity.countryShortName === countryShortName
             )
           ) {
             return {
@@ -77,15 +84,15 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
         set((state) => ({
           favoriteCities: state.favoriteCities.filter(
             (city) =>
-              city.cityName !== cityName &&
-              city.countryShortName !== countryShortName
+              getCityCountryCode(city.cityName, city.countryShortName) !==
+              getCityCountryCode(cityName, countryShortName)
           ),
         }));
       },
-      setFavoriteCitiesWeather: (weatherData: any[]) => {
+      setFavoriteCitiesWeather: (cityWeather: CityWeather[]) => {
         set(() => {
           return {
-            favoriteCitiesWeather: weatherData,
+            favoriteCitiesWeather: cityWeather,
           };
         });
       },
@@ -93,6 +100,7 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
     {
       name: "favorite-city-ids",
       getStorage: () => localStorage,
+      // Only store Favorite Cities in Local Storage
       partialize: (state) => ({ favoriteCities: state.favoriteCities }),
     }
   )

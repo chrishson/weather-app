@@ -2,24 +2,26 @@
 
 import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
+import { Weather } from "@/stores/types";
 
 export default function FocusedWeather() {
-  const { weatherData } = useFocusedWeatherState();
+  const { cityWeather } = useFocusedWeatherState();
   const { addFavoriteCity } = useFavoriteCitiesStore();
 
   const handleClick = () => {
+    if (!cityWeather) return;
     addFavoriteCity(
-      weatherData.cityName,
-      weatherData.countryShortName,
-      weatherData.lat,
-      weatherData.lon
+      cityWeather.cityName,
+      cityWeather.countryShortName,
+      cityWeather.lat,
+      cityWeather.lon
     );
   };
 
   return (
     <div>
       <button onClick={handleClick}>ADD TO FAVORITES</button>
-      {weatherData?.daily.map((day: any) => {
+      {cityWeather?.daily?.map((day: Weather) => {
         return (
           <div key={day.dt}>
             <div>{new Date(day.dt * 1000).toDateString()}</div>
