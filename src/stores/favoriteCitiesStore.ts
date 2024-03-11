@@ -4,42 +4,96 @@ import { persist } from "zustand/middleware";
 // TODO: Put Limit on Favorite Cities
 // TODO: Prevent Duplicates. Prevent Click if Already Favorite.
 
-enum CityIds {
-  LONDON = 2643743,
-  SEOUL = 1835848,
-  VANCOUVER = 6173331,
-}
-
 type FavoriteCitiesState = {
-  favoriteCitiesIds: number[];
-  addFavoriteCityId: (cityId: number) => void;
-  removeFavoriteCityId: (cityId: number) => void;
+  // TODO: FIX TYPINGS
+  favoriteCities: any[];
+  favoriteCitiesWeather: any[];
+  addFavoriteCity: (
+    cityName: string,
+    countryShortName: string,
+    lat: number,
+    lon: number
+  ) => void;
+  removeFavoriteCity: (cityName: string, countryShortName: string) => void;
+  setFavoriteCitiesWeather: (weatherData: any[]) => void;
 };
 
 // Initial Cities in Favorites List if user hasn't added/removed any.
 const initialState = {
-  favoriteCitiesIds: [CityIds.LONDON, CityIds.SEOUL, CityIds.VANCOUVER],
+  favoriteCities: [
+    {
+      cityName: "Seoul",
+      countryShortName: "KR",
+      lat: 37.5518911,
+      lon: 126.9917937,
+    },
+    {
+      cityName: "Vancouver",
+      countryShortName: "CA",
+      lat: 49.2827,
+      lon: -123.1207,
+    },
+    {
+      cityName: "London",
+      countryShortName: "GB",
+      lat: 51.5072,
+      lon: -0.1276,
+    },
+  ],
+  favoriteCitiesWeather: [],
 };
 
-// Persisting Favorite Cities Ids in Local Storage
+// Persisting Favorite Cities in Local Storage
 export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
   persist(
     (set) => ({
       ...initialState,
-      addFavoriteCityId: (cityId) =>
+      addFavoriteCity: (
+        cityName: string,
+        countryShortName: string,
+        lat: number,
+        lon: number
+      ) => {
+        set((state) => {
+          // Prevent duplicate city/country from being added.
+          if (
+            !state.favoriteCities.some(
+              (city: any) =>
+                city.cityName === cityName &&
+                city.countryShortName === countryShortName
+            )
+          ) {
+            return {
+              favoriteCities: [
+                ...state.favoriteCities,
+                { cityName, countryShortName, lat, lon },
+              ],
+            };
+          }
+          return state;
+        });
+      },
+      removeFavoriteCity: (cityName: string, countryShortName: string) => {
         set((state) => ({
-          favoriteCitiesIds: [...state.favoriteCitiesIds, cityId],
-        })),
-      removeFavoriteCityId: (cityId) =>
-        set((state) => ({
-          favoriteCitiesIds: state.favoriteCitiesIds.filter(
-            (id) => id !== cityId
+          favoriteCities: state.favoriteCities.filter(
+            (city) =>
+              city.cityName !== cityName &&
+              city.countryShortName !== countryShortName
           ),
-        })),
+        }));
+      },
+      setFavoriteCitiesWeather: (weatherData: any[]) => {
+        set(() => {
+          return {
+            favoriteCitiesWeather: weatherData,
+          };
+        });
+      },
     }),
     {
       name: "favorite-city-ids",
       getStorage: () => localStorage,
+      partialize: (state) => ({ favoriteCities: state.favoriteCities }),
     }
   )
 );
