@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-// TODO: TYPE PROPERLY
 function useLocalTime(timezone: string) {
   const [time, setTime] = useState("");
 

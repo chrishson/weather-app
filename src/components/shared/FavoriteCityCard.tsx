@@ -5,13 +5,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/core/Card";
-import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
+import {
+  CityWeather,
+  useFavoriteCitiesStore,
+} from "@/stores/favoriteCitiesStore";
 import { MdFavorite } from "react-icons/md";
 import WeatherIcon from "../core/WeatherIcon";
 import Time from "./Time";
 
 type FavoriteCityCardProps = {
-  city: any;
+  city: CityWeather;
 };
 
 // TODO: Util Lib
@@ -24,7 +27,7 @@ const getWeekday = (datetime: number, timezone: string) => {
 
 export default function FavoriteCityCard({ city }: FavoriteCityCardProps) {
   const { removeFavoriteCity } = useFavoriteCitiesStore();
-  const weekday = getWeekday(city.current.dt * 1000, city.timezone);
+  const weekday = getWeekday(city.current?.dt || 0 * 1000, city.timezone);
   return (
     <Card className="min-w-[280px]">
       <CardHeader className="pb-0">
@@ -47,12 +50,12 @@ export default function FavoriteCityCard({ city }: FavoriteCityCardProps) {
       <CardContent className="pb-2">
         <div className="flex justify-between items-center">
           <WeatherIcon
-            weatherCode={city.current.weather[0].id}
+            weatherCode={city.current?.weather[0].id}
             className="h-20 w-20"
           />
           <div className="text-right">
-            <p>{city.current.temp}°C</p>
-            <p>{city.current.weather[0].description}</p>
+            <p>{city.current?.temp}°C</p>
+            <p>{city.current?.weather[0].description}</p>
           </div>
         </div>
       </CardContent>

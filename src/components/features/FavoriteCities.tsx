@@ -1,6 +1,9 @@
 "use client";
 
-import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
+import {
+  FavoriteCity,
+  useFavoriteCitiesStore,
+} from "@/stores/favoriteCitiesStore";
 import { useEffect } from "react";
 import FavoriteCityCard from "../shared/FavoriteCityCard";
 
@@ -9,13 +12,14 @@ export default function FavoriteCities() {
     useFavoriteCitiesStore();
 
   const fetchData = async () => {
-    // TODO: Fix Types
-    const favoriteCityWeatherPromises = favoriteCities.map((city: any) => {
-      return fetch(
-        // Get data for current weather only.
-        `/api/weather/search?lat=${city.lat}&lon=${city.lon}&type=current`
-      ).then((res) => res.json());
-    });
+    const favoriteCityWeatherPromises = favoriteCities.map(
+      (favoriteCity: FavoriteCity) => {
+        return fetch(
+          // Get data for current weather only.
+          `/api/weather/search?lat=${favoriteCity.lat}&lon=${favoriteCity.lon}&type=current`
+        ).then((res) => res.json());
+      }
+    );
 
     const results = await Promise.all(favoriteCityWeatherPromises);
 

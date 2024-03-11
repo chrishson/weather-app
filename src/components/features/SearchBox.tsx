@@ -8,7 +8,7 @@ import usePlacesAutocomplete, {
 
 // Most of this code is from the use-places-autocomplete documentation.
 export default function SearchBox() {
-  const { setWeatherData } = useFocusedWeatherState();
+  const { setCityWeatherData } = useFocusedWeatherState();
   const {
     ready,
     value,
@@ -33,10 +33,12 @@ export default function SearchBox() {
 
     const data = await response.json();
 
-    setWeatherData({ ...data, cityName, countryShortName });
+    console.log(data, "DATA");
+
+    setCityWeatherData({ ...data, cityName, countryShortName });
   };
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the keyword of the input element
     setValue(e.target.value);
   };
