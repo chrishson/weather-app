@@ -43,6 +43,11 @@ const initialState = {
   favoriteCitiesWeather: [],
 };
 
+// TODO: Extract Util function to get unique city/country code.
+const getCityCountryCode = (cityName: string, countryShortName: string) => {
+  return `${cityName}-${countryShortName}`;
+};
+
 // Persisting Favorite Cities in Local Storage
 export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
   persist(
@@ -77,8 +82,8 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
         set((state) => ({
           favoriteCities: state.favoriteCities.filter(
             (city) =>
-              city.cityName !== cityName &&
-              city.countryShortName !== countryShortName
+              getCityCountryCode(city.cityName, city.countryShortName) !==
+              getCityCountryCode(cityName, countryShortName)
           ),
         }));
       },
@@ -93,6 +98,7 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
     {
       name: "favorite-city-ids",
       getStorage: () => localStorage,
+      // Only store Favorite Cities in Local Storage
       partialize: (state) => ({ favoriteCities: state.favoriteCities }),
     }
   )
