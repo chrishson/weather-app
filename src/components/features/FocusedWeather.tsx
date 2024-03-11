@@ -1,7 +1,8 @@
 "use client";
 
-import { Weather, useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
+import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
+import { Weather } from "@/stores/types";
 
 export default function FocusedWeather() {
   const { cityWeather } = useFocusedWeatherState();

@@ -32,9 +32,7 @@ export default function SearchBox() {
     const response = await fetch(`/api/weather/search?lat=${lat}&lon=${lng}`);
 
     const data = await response.json();
-
-    console.log(data, "DATA");
-
+    
     setCityWeatherData({ ...data, cityName, countryShortName });
   };
 

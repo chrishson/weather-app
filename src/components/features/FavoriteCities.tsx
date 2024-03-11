@@ -1,11 +1,9 @@
 "use client";
 
-import {
-  FavoriteCity,
-  useFavoriteCitiesStore,
-} from "@/stores/favoriteCitiesStore";
+import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
 import { useEffect } from "react";
 import FavoriteCityCard from "../shared/FavoriteCityCard";
+import { FavoriteCity } from "@/stores/types";
 
 export default function FavoriteCities() {
   const { favoriteCities, favoriteCitiesWeather, setFavoriteCitiesWeather } =

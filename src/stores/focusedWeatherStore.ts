@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { CityWeather } from "./favoriteCitiesStore";
+import { CityWeather } from "./types";
 
 type FocusedWeatherState = {
   cityWeather: CityWeather | null;

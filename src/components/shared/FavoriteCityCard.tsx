@@ -5,13 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/core/Card";
-import {
-  CityWeather,
-  useFavoriteCitiesStore,
-} from "@/stores/favoriteCitiesStore";
+import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
 import { MdFavorite } from "react-icons/md";
 import WeatherIcon from "../core/WeatherIcon";
 import Time from "./Time";
+import { CityWeather } from "@/stores/types";
 
 type FavoriteCityCardProps = {
   city: CityWeather;
