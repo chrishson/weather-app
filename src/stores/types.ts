@@ -1,3 +1,4 @@
+// Types used in multiple areas
 export type Weather = {
   dt: number;
   sunrise: number;
