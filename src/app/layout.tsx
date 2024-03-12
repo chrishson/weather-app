@@ -17,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className}, container mx-auto flex min-h-screen flex-col antialiased`}
+      >
         {children}
         <Script
           strategy={"beforeInteractive"}

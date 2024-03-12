@@ -79,17 +79,18 @@ export default function SearchBox() {
     });
 
   return (
+    // TODO: Add Search Icon
     <div className="relative min-w-[280px]">
       <input
-        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+        className="p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Hows the weather in...?"
+        placeholder=""
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (
-        <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+        <ul className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 w-full">
           {renderSuggestions()}
         </ul>
       )}

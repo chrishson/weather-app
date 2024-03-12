@@ -3,7 +3,6 @@ export type Weather = {
   dt: number;
   sunrise: number;
   sunset: number;
-  temp: number;
   feels_like: number;
   pressure: number;
   humidity: number;
@@ -22,6 +21,21 @@ export type Weather = {
   }[];
 };
 
+export type CurrentWeather = Weather & {
+  temp: number;
+};
+
+export type DailyWeather = Weather & {
+  temp: {
+    day: number;
+    min: number;
+    max: number;
+    night: number;
+    eve: number;
+    morn: number;
+  };
+};
+
 export type FavoriteCity = {
   cityName: string;
   countryShortName: string;
@@ -32,6 +46,6 @@ export type FavoriteCity = {
 export type CityWeather = FavoriteCity & {
   timezone: string;
   timezone_offset: number;
-  current?: Weather;
-  daily?: Weather[];
+  current: CurrentWeather;
+  daily: DailyWeather[];
 };
