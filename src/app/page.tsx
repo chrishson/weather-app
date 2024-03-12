@@ -14,10 +14,14 @@ const FavoriteCities = dynamic(
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-8">
-      <SearchBox />
-      <FocusedWeather />
-      <FavoriteCities />
+    <main className="flex flex-col h-screen p-2 pb-16 pt-4">
+      <div className="flex w-full items-center justify-end pb-4">
+        <SearchBox />
+      </div>
+      <div className="flex flex-col md:flex-row flex-grow gap-3">
+        <FocusedWeather />
+        <FavoriteCities />
+      </div>
     </main>
   );
 }

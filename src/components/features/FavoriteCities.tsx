@@ -38,7 +38,8 @@ export default function FavoriteCities() {
 
   return (
     // TODO: Have a 0/5 Favorite Cities header to show max.
-    <div className="flex flex-wrap justify-center gap-4">
+    // TODO: Have a Loading / No Favorite Cities Placeholder
+    <div className="flex flex-col flex-wrap gap-3">
       {favoriteCitiesWeather &&
         favoriteCitiesWeather.map((cityWeather, index) => {
           return (
