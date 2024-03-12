@@ -32,7 +32,7 @@ export default function SearchBox() {
     const response = await fetch(`/api/weather/search?lat=${lat}&lon=${lng}`);
 
     const data = await response.json();
-    
+
     setCityWeatherData({ ...data, cityName, countryShortName });
   };
 
@@ -68,22 +68,31 @@ export default function SearchBox() {
       } = suggestion;
 
       return (
-        <li key={place_id} onClick={handleSelect(suggestion)}>
+        <li
+          key={place_id}
+          onClick={handleSelect(suggestion)}
+          className="p-2 hover:bg-gray-200 cursor-pointer"
+        >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
       );
     });
 
   return (
-    <div>
+    <div className="relative min-w-[280px]">
       <input
+        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
         value={value}
         onChange={handleInput}
         disabled={!ready}
         placeholder="Hows the weather in...?"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {status === "OK" && <ul>{renderSuggestions()}</ul>}
+      {status === "OK" && (
+        <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+          {renderSuggestions()}
+        </ul>
+      )}
     </div>
   );
 }
