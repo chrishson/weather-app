@@ -8,7 +8,7 @@ import {
 import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
 import { MdFavorite } from "react-icons/md";
 import WeatherIcon from "../core/WeatherIcon";
-import Time from "./Time";
+import DayTime from "./DayTime";
 import { CityWeather } from "@/stores/types";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
 
@@ -16,24 +16,11 @@ type FavoriteCityCardProps = {
   cityWeather: CityWeather;
 };
 
-// TODO: Util Lib
-const getWeekday = (datetime: number, timezone: string) => {
-  return new Date(datetime).toLocaleDateString("en-US", {
-    timeZone: timezone,
-    weekday: "long",
-  });
-};
-
 export default function FavoriteCityCard({
   cityWeather,
 }: FavoriteCityCardProps) {
   const { removeFavoriteCity } = useFavoriteCitiesStore();
   const { setCityWeatherData } = useFocusedWeatherState();
-
-  const weekday = getWeekday(
-    cityWeather.current?.dt || 0 * 1000,
-    cityWeather.timezone
-  );
 
   const handleCardClick = () => {
     setCityWeatherData(cityWeather);
@@ -51,6 +38,7 @@ export default function FavoriteCityCard({
       <CardHeader className="pb-0">
         <CardTitle className="flex justify-between items-center">
           {cityWeather.cityName}, {cityWeather.countryShortName}
+          {/* TODO: On Hover change to full icon. Also should be full if already favorited */}
           <button
             className="cursor-pointer"
             onClick={handleRemoveFavoriteCityClick}
@@ -60,7 +48,7 @@ export default function FavoriteCityCard({
         </CardTitle>
         <CardDescription>
           {/* TODO: Show Loading, if time is not set. */}
-          {weekday}, <Time timezone={cityWeather.timezone} />
+          <DayTime timezone={cityWeather.timezone} />
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-2">
