@@ -1,8 +1,28 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { CityWeather, FavoriteCity } from "./types";
+import { getCityCountryCode } from "@/lib/utils";
 
-// TODO: Put Limit on Favorite Cities
+export const DEFAULT_FAVORITE_CITIES = [
+  {
+    cityName: "Vancouver",
+    countryShortName: "CA",
+    lat: 49.2827,
+    lon: -123.1207,
+  },
+  {
+    cityName: "London",
+    countryShortName: "GB",
+    lat: 51.5072,
+    lon: -0.1276,
+  },
+  {
+    cityName: "Seoul",
+    countryShortName: "KR",
+    lat: 37.5518911,
+    lon: 126.9917937,
+  },
+];
 
 type FavoriteCitiesState = {
   favoriteCities: FavoriteCity[];
@@ -22,32 +42,8 @@ const initialState: {
   favoriteCities: FavoriteCity[];
   favoriteCitiesWeather: CityWeather[];
 } = {
-  favoriteCities: [
-    {
-      cityName: "Seoul",
-      countryShortName: "KR",
-      lat: 37.5518911,
-      lon: 126.9917937,
-    },
-    {
-      cityName: "Vancouver",
-      countryShortName: "CA",
-      lat: 49.2827,
-      lon: -123.1207,
-    },
-    {
-      cityName: "London",
-      countryShortName: "GB",
-      lat: 51.5072,
-      lon: -0.1276,
-    },
-  ],
+  favoriteCities: DEFAULT_FAVORITE_CITIES,
   favoriteCitiesWeather: [],
-};
-
-// TODO: Extract Util function to get unique city/country code.
-const getCityCountryCode = (cityName: string, countryShortName: string) => {
-  return `${cityName}-${countryShortName}`;
 };
 
 // Persisting Favorite Cities in Local Storage

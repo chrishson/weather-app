@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchCityWeather } from "@/lib/utils";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -23,22 +24,19 @@ export default function SearchBox() {
     debounce: 300,
   });
 
-  const fetchData = async (
-    cityName: string,
-    countryShortName: string,
-    lat: number,
-    lng: number
-  ) => {
-    const response = await fetch(`/api/weather/search?lat=${lat}&lon=${lng}`);
-
-    const data = await response.json();
-
-    setCityWeatherData({ ...data, cityName, countryShortName });
-  };
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the keyword of the input element
     setValue(e.target.value);
+  };
+
+  const fetchAndSetCityWeather = async (
+    lat: number,
+    lng: number,
+    cityName: string,
+    countryShortName: string
+  ) => {
+    const data = await fetchCityWeather(lat, lng);
+    setCityWeatherData({ ...data, cityName, countryShortName });
   };
 
   const handleSelect =
@@ -56,7 +54,7 @@ export default function SearchBox() {
         const countryShortName =
           addressComponents[addressComponents.length - 1].short_name;
         const { lat, lng } = getLatLng(results[0]);
-        fetchData(cityName, countryShortName, lat, lng);
+        fetchAndSetCityWeather(lat, lng, cityName, countryShortName);
       });
     };
 

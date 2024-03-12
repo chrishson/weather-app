@@ -10,7 +10,6 @@ export default function CurrentForecast({
   currentForecast,
 }: CurrentForecastProps) {
   if (!currentForecast) return null;
-  console.log(currentForecast, "currentForecast");
   return (
     <div className="flex justify-center items-center pb-2">
       <WeatherIcon

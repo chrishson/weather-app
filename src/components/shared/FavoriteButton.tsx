@@ -23,7 +23,6 @@ export default function FavoriteButton({ size = 24 }: FavoriteButtonProps) {
     e.stopPropagation();
     if (!cityWeather) return;
     if (favoriteCitiesWeather.length >= 4) {
-      console.log('hello')
       toast({
         title: "Favorites Limit Reached",
         description: "You can only favorite up to 4 cities.",
