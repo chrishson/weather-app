@@ -12,7 +12,7 @@ export default function CurrentForecast({
   if (!currentForecast) return null;
   console.log(currentForecast, "currentForecast");
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center pb-2">
       <WeatherIcon
         weatherCode={currentForecast.weather[0].id}
         className="h-64 w-64 sm:h-80 sm:w-80"

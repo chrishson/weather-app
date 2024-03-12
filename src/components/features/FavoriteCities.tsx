@@ -37,10 +37,9 @@ export default function FavoriteCities() {
   }, [favoriteCities]);
 
   return (
-    // TODO: Have a 0/5 Favorite Cities header to show max.
     // TODO: Have a Loading / No Favorite Cities Placeholder
     <div className="flex flex-col flex-wrap gap-3">
-      {favoriteCitiesWeather &&
+      {favoriteCitiesWeather.length > 0 ? (
         favoriteCitiesWeather.map((cityWeather, index) => {
           return (
             <FavoriteCityCard
@@ -48,7 +47,10 @@ export default function FavoriteCities() {
               key={cityWeather.cityName + index}
             />
           );
-        })}
+        })
+      ) : (
+        <div className="flex justify-center items-center min-w-[280px] h-full">No Favorite Cities</div>
+      )}
     </div>
   );
 }

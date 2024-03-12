@@ -80,7 +80,7 @@ export default function SearchBox() {
 
   return (
     // TODO: Add Search Icon
-    <div className="relative min-w-[280px]">
+    <div className="relative w-full md:w-auto md:min-w-[280px]">
       <input
         className="p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
         value={value}

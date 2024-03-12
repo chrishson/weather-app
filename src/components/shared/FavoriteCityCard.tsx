@@ -39,7 +39,6 @@ export default function FavoriteCityCard({
       <CardHeader className="pb-0 pt-4">
         <CardTitle className="flex justify-between items-center">
           {cityWeather.cityName}, {cityWeather.countryShortName}
-          {/* TODO: On Hover change to full icon. Also should be full if already favorited */}
           <button
             className="cursor-pointer"
             onClick={handleRemoveFavoriteCityClick}
@@ -52,7 +51,7 @@ export default function FavoriteCityCard({
           <DayTime timezone={cityWeather.timezone} />
         </CardDescription>
       </CardHeader>
-      <CardContent className="pb-1">
+      <CardContent className="pb-3">
         <div className="flex justify-between items-center">
           <WeatherIcon
             weatherCode={cityWeather.current?.weather[0].id}

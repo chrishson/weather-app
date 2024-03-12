@@ -68,7 +68,8 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
               (favoriteCity: FavoriteCity) =>
                 favoriteCity.cityName === cityName &&
                 favoriteCity.countryShortName === countryShortName
-            )
+            ) &&
+            state.favoriteCities.length <= 4
           ) {
             return {
               favoriteCities: [

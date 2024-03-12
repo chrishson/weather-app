@@ -18,7 +18,7 @@ export default function Home() {
       <div className="flex w-full items-center justify-end pb-4">
         <SearchBox />
       </div>
-      <div className="flex flex-col md:flex-row flex-grow gap-3">
+      <div className="flex flex-col md:flex-row flex-grow gap-3 pb-4">
         <FocusedWeather />
         <FavoriteCities />
       </div>
