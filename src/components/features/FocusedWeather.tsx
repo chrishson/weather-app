@@ -21,7 +21,7 @@ import { fetchCityWeather } from "@/lib/utils";
 
 export default function FocusedWeather() {
   const { cityWeather, setCityWeatherData } = useFocusedWeatherState();
-  const { favoriteCitiesWeather } = useFavoriteCitiesStore();
+  const { isLoading, favoriteCitiesWeather } = useFavoriteCitiesStore();
 
   const fetchAndSetCityWeather = async (
     lat: number,

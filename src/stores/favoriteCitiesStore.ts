@@ -27,6 +27,7 @@ export const DEFAULT_FAVORITE_CITIES = [
 type FavoriteCitiesState = {
   favoriteCities: FavoriteCity[];
   favoriteCitiesWeather: CityWeather[];
+  isLoading: boolean;
   addFavoriteCity: (
     cityName: string,
     countryShortName: string,
@@ -35,15 +36,18 @@ type FavoriteCitiesState = {
   ) => void;
   removeFavoriteCity: (cityName: string, countryShortName: string) => void;
   setFavoriteCitiesWeather: (weatherData: CityWeather[]) => void;
+  setLoadingState: (state: boolean) => void;
 };
 
 // Initial Cities in Favorites List if user hasn't added/removed any.
 const initialState: {
   favoriteCities: FavoriteCity[];
   favoriteCitiesWeather: CityWeather[];
+  isLoading: boolean;
 } = {
   favoriteCities: DEFAULT_FAVORITE_CITIES,
   favoriteCitiesWeather: [],
+  isLoading: true,
 };
 
 // Persisting Favorite Cities in Local Storage
@@ -93,6 +97,7 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
           };
         });
       },
+      setLoadingState: (state) => set(() => ({ isLoading: state })),
     }),
     {
       name: "favorite-city-ids",
