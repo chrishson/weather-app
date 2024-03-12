@@ -14,7 +14,7 @@ export default function FavoriteCities() {
       (favoriteCity: FavoriteCity) => {
         return fetch(
           // Get data for current weather only.
-          `/api/weather/search?lat=${favoriteCity.lat}&lon=${favoriteCity.lon}&type=current`
+          `/api/weather/search?lat=${favoriteCity.lat}&lon=${favoriteCity.lon}`
         ).then((res) => res.json());
       }
     );
@@ -37,11 +37,16 @@ export default function FavoriteCities() {
   }, [favoriteCities]);
 
   return (
-    // TODO Have a 0/5 Favorite Cities header to show max.
+    // TODO: Have a 0/5 Favorite Cities header to show max.
     <div className="flex flex-wrap justify-center gap-4">
       {favoriteCitiesWeather &&
-        favoriteCitiesWeather.map((city, index) => {
-          return <FavoriteCityCard city={city} key={city.cityName + index} />;
+        favoriteCitiesWeather.map((cityWeather, index) => {
+          return (
+            <FavoriteCityCard
+              cityWeather={cityWeather}
+              key={cityWeather.cityName + index}
+            />
+          );
         })}
     </div>
   );
