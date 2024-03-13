@@ -8,7 +8,7 @@ type DayTimeProps = {
 // Extracted into own component so that it doesn't cause parent component to rerender on every tick.
 export default function DayTime({ timezone }: DayTimeProps) {
   const { dynamicTime, dynamicDay } = useLocalTime(timezone);
-  const isLoading = !dynamicTime || !dynamicDay;
+  const isTimeCalculated = Boolean(dynamicTime) && dynamicTime !== "";
 
   const seconds = new Date().getTime();
   const localTime = getTime(seconds, timezone);
@@ -16,9 +16,9 @@ export default function DayTime({ timezone }: DayTimeProps) {
 
   return (
     <>
-      {isLoading
-        ? `${localDay}, ${localTime}`
-        : `${dynamicDay}, ${dynamicTime}`}
+      {isTimeCalculated
+        ? `${dynamicDay}, ${dynamicTime}`
+        : `${localDay}, ${localTime}`}
     </>
   );
 }

@@ -21,7 +21,8 @@ import { fetchCityWeather } from "@/lib/utils";
 
 export default function FocusedWeather() {
   const { cityWeather, setCityWeatherData } = useFocusedWeatherState();
-  const { isLoading, favoriteCitiesWeather } = useFavoriteCitiesStore();
+  const { isLoading: isFavoriteCitiesLoading, favoriteCitiesWeather } =
+    useFavoriteCitiesStore();
 
   const fetchAndSetCityWeather = async (
     lat: number,
@@ -34,6 +35,8 @@ export default function FocusedWeather() {
   };
 
   useEffect(() => {
+    // If favorite cities are still loading, return.
+    if (isFavoriteCitiesLoading) return;
     if (!cityWeather) {
       // If there is no focused city, set the first favorite city as focused.
       if (favoriteCitiesWeather[0]) {
@@ -48,33 +51,31 @@ export default function FocusedWeather() {
         );
       }
     }
-  }, [favoriteCitiesWeather]);
+  }, [favoriteCitiesWeather, isFavoriteCitiesLoading]);
 
   return (
-    <div className="flex-grow">
-      <Card className="cursor-pointer w-full h-full cursor-default">
-        {cityWeather && (
-          <>
-            <CardHeader className="pb-0 pt-3">
-              <CardTitle className="flex justify-between items-center text-5xl">
-                {cityWeather?.cityName}, {cityWeather?.countryShortName}
-                <FavoriteButton size={48} />
-              </CardTitle>
-              <CardDescription className="text-2xl">
-                {/* TODO: Show Loading, if time is not set. */}
-                {cityWeather && <DayTime timezone={cityWeather.timezone} />}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pb-2 flex flex-col justify-center">
-              <CurrentForecast currentForecast={cityWeather?.current} />
-              <WeekForecast
-                weekForecastData={cityWeather?.daily || []}
-                timezone={cityWeather?.timezone}
-              />
-            </CardContent>
-          </>
-        )}
-      </Card>
-    </div>
+    <Card className="cursor-pointer w-full h-full cursor-default">
+      {cityWeather && (
+        <>
+          <CardHeader className="pb-0 pt-3">
+            <CardTitle className="flex justify-between items-center text-5xl">
+              {cityWeather?.cityName}, {cityWeather?.countryShortName}
+              <FavoriteButton />
+            </CardTitle>
+            <CardDescription className="text-2xl">
+              {/* TODO: Show Loading, if time is not set. */}
+              {cityWeather && <DayTime timezone={cityWeather.timezone} />}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pb-2 flex flex-col justify-center">
+            <CurrentForecast currentForecast={cityWeather?.current} />
+            <WeekForecast
+              weekForecastData={cityWeather?.daily || []}
+              timezone={cityWeather?.timezone}
+            />
+          </CardContent>
+        </>
+      )}
+    </Card>
   );
 }

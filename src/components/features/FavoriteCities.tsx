@@ -14,7 +14,7 @@ export default function FavoriteCities() {
     setLoadingState,
   } = useFavoriteCitiesStore();
 
-  const setAndFetchFavoriteCitiesWeather = async () => {
+  const fetchAndSetFavoriteCitiesWeather = async () => {
     setLoadingState(true);
     const favoriteCitiesWeatherState = await fetchFavoriteCitiesWeather(
       favoriteCities
@@ -24,12 +24,10 @@ export default function FavoriteCities() {
   };
 
   useEffect(() => {
-    setAndFetchFavoriteCitiesWeather();
+    fetchAndSetFavoriteCitiesWeather();
   }, [favoriteCities]);
 
   return (
-    // TODO: Have a Loading / No Favorite Cities Placeholder
-
     <div className="flex flex-col flex-wrap gap-3 min-w-[280px] ">
       {favoriteCitiesWeather.length > 0 ? (
         favoriteCitiesWeather.map((cityWeather, index) => {

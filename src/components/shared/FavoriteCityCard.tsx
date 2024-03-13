@@ -12,6 +12,7 @@ import DayTime from "./DayTime";
 import { CityWeather } from "@/stores/types";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
 import { roundTemperature } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 type FavoriteCityCardProps = {
   cityWeather: CityWeather;
@@ -39,12 +40,13 @@ export default function FavoriteCityCard({
       <CardHeader className="pb-0 pt-4">
         <CardTitle className="flex justify-between items-center">
           {cityWeather.cityName}, {cityWeather.countryShortName}
-          <button
-            className="cursor-pointer"
+          <Button
+            variant="outline"
+            size="icon"
             onClick={handleRemoveFavoriteCityClick}
           >
             <MdFavorite size={24} />
-          </button>
+          </Button>
         </CardTitle>
         <CardDescription>
           {/* TODO: Show Loading, if time is not set. */}

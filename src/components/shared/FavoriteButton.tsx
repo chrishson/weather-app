@@ -2,6 +2,7 @@ import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { useToast } from "../ui/use-toast";
+import { Button } from "../ui/button";
 
 type FavoriteButtonProps = {
   size?: number;
@@ -47,8 +48,9 @@ export default function FavoriteButton({ size = 24 }: FavoriteButtonProps) {
   };
 
   return (
-    <button
-      className="cursor-pointer"
+    <Button
+      variant="outline"
+      size="icon"
       onClick={
         isFavorited ? handleRemoveFavoriteCityClick : handleAddFavoriteCityClick
       }
@@ -58,6 +60,6 @@ export default function FavoriteButton({ size = 24 }: FavoriteButtonProps) {
       ) : (
         <MdFavoriteBorder size={size} />
       )}
-    </button>
+    </Button>
   );
 }
