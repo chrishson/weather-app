@@ -25,6 +25,7 @@ export default function SearchBox() {
     },
     debounce: 300,
   });
+
   const ref = useOnclickOutside(() => {
     // When the user clicks outside of the component, call it to clear and reset the suggestions data
     clearSuggestions();

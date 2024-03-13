@@ -1,16 +1,21 @@
 import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
-import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
-import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { useToast } from "../ui/use-toast";
 import { Button } from "../ui/button";
+import { GoStar } from "react-icons/go";
+
+import { GoStarFill } from "react-icons/go";
+import { CityWeather } from "@/stores/types";
 
 type FavoriteButtonProps = {
+  cityWeather: CityWeather;
   size?: number;
 };
 
-export default function FavoriteButton({ size = 24 }: FavoriteButtonProps) {
+export default function FavoriteButton({
+  cityWeather,
+  size = 24,
+}: FavoriteButtonProps) {
   const { toast } = useToast();
-  const { cityWeather } = useFocusedWeatherState();
   const { favoriteCitiesWeather, addFavoriteCity, removeFavoriteCity } =
     useFavoriteCitiesStore();
 
@@ -55,11 +60,7 @@ export default function FavoriteButton({ size = 24 }: FavoriteButtonProps) {
         isFavorited ? handleRemoveFavoriteCityClick : handleAddFavoriteCityClick
       }
     >
-      {isFavorited ? (
-        <MdFavorite size={size} />
-      ) : (
-        <MdFavoriteBorder size={size} />
-      )}
+      {isFavorited ? <GoStarFill size={size} /> : <GoStar size={size} />}
     </Button>
   );
 }

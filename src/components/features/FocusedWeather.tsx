@@ -67,7 +67,7 @@ export default function FocusedWeather() {
           <CardHeader className="pb-0 pt-3">
             <CardTitle className="flex justify-between items-center text-5xl pb-1">
               {cityWeather?.cityName}, {cityWeather?.countryShortName}
-              <FavoriteButton />
+              <FavoriteButton cityWeather={cityWeather} />
             </CardTitle>
             <CardDescription className="text-2xl">
               {cityWeather && <DayTime timezone={cityWeather.timezone} />}

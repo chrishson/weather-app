@@ -102,7 +102,6 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
     {
       name: "favorite-city-ids",
       getStorage: () => localStorage,
-      // Only store Favorite Cities in Local Storage
       partialize: (state) => ({ favoriteCities: state.favoriteCities }),
     }
   )
