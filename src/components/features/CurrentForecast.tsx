@@ -26,7 +26,7 @@ export default function CurrentForecast({
         weatherCode={currentForecast.weather[0].id}
         className="h-48 w-48 sm:h-80 sm:w-80"
       />
-      <div className="text-right text-2xl">
+      <div className="text-right text-xl sm:text-2xl">
         <p>{temperature}</p>
         <p>Feels like {feelsLikeTemperature}</p>
         <p>{currentForecast.weather[0].description}</p>
