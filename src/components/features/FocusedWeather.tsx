@@ -16,7 +16,7 @@ import DayTime from "../shared/DayTime";
 import WeekForecast from "./WeekForecast";
 import CurrentForecast from "./CurrentForecast";
 import FavoriteButton from "../shared/FavoriteButton";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { fetchCityWeather } from "@/lib/utils";
 import LoadingSpinner from "../ui/LoadingSpinner";
 
@@ -30,17 +30,20 @@ export default function FocusedWeather() {
   const { isLoading: isFavoriteCitiesLoading, favoriteCitiesWeather } =
     useFavoriteCitiesStore();
 
-  const fetchAndSetCityWeather = async (
-    lat: number,
-    lng: number,
-    cityName: string,
-    countryShortName: string
-  ) => {
-    setLoadingState(true);
-    const data = await fetchCityWeather(lat, lng);
-    setCityWeatherData({ ...data, cityName, countryShortName });
-    setLoadingState(false);
-  };
+  const fetchAndSetCityWeather = useCallback(
+    async (
+      lat: number,
+      lng: number,
+      cityName: string,
+      countryShortName: string
+    ) => {
+      setLoadingState(true);
+      const data = await fetchCityWeather(lat, lng);
+      setCityWeatherData({ ...data, cityName, countryShortName });
+      setLoadingState(false);
+    },
+    [setCityWeatherData, setLoadingState]
+  );
 
   useEffect(() => {
     // If loading, do nothing;
@@ -58,7 +61,14 @@ export default function FocusedWeather() {
         );
       }
     }
-  }, [favoriteCitiesWeather, isFavoriteCitiesLoading, isFocusedWeatherLoading]);
+  }, [
+    isFavoriteCitiesLoading,
+    isFocusedWeatherLoading,
+    cityWeather,
+    favoriteCitiesWeather,
+    setCityWeatherData,
+    fetchAndSetCityWeather,
+  ]);
 
   return (
     <Card className="cursor-pointer w-full h-full cursor-default">

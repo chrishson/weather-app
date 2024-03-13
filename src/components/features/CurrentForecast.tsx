@@ -10,8 +10,8 @@ type CurrentForecastProps = {
 export default function CurrentForecast({
   currentForecast,
 }: CurrentForecastProps) {
-  if (!currentForecast) return null;
   const { temperatureUnit } = useTemperatureUnitStore();
+  if (!currentForecast) return null;
   const temperature = getTemperatureByUnit(
     currentForecast.temp,
     temperatureUnit

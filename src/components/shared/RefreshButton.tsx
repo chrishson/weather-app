@@ -51,7 +51,7 @@ export default function RefreshButton() {
       className="flex items-center gap-1 p-2 border rounded-md shadow-sm"
       onClick={handleRefresh}
     >
-      <SlRefresh />
+      <SlRefresh size={18}/>
     </Button>
   );
 }

@@ -11,7 +11,12 @@ export default function TemperatureUnitToggleButton() {
       : setTemperatureUnit("metric");
   };
   return (
-    <Button variant="outline" size="icon" onClick={toggleTemperatureUnit}>
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={toggleTemperatureUnit}
+      className="flex items-center gap-1 p-2 border rounded-md shadow-sm"
+    >
       {temperatureUnit === "metric" ? (
         <TbTemperatureCelsius size={20} />
       ) : (

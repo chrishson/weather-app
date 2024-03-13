@@ -1,7 +1,7 @@
 "use client";
 
 import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import FavoriteCityCard from "../shared/FavoriteCityCard";
 import { fetchFavoriteCitiesWeather } from "@/lib/utils";
 
@@ -14,18 +14,22 @@ export default function FavoriteCities() {
     setLoadingState,
   } = useFavoriteCitiesStore();
 
-  const fetchAndSetFavoriteCitiesWeather = async () => {
+  const fetchAndSetFavoriteCitiesWeather = useCallback(async () => {
     setLoadingState(true);
     const favoriteCitiesWeatherState = await fetchFavoriteCitiesWeather(
       favoriteCities
     );
     setLoadingState(false);
     setFavoriteCitiesWeather(favoriteCitiesWeatherState);
-  };
+  }, [
+    favoriteCities,
+    setLoadingState,
+    setFavoriteCitiesWeather,
+  ]);
 
   useEffect(() => {
     fetchAndSetFavoriteCitiesWeather();
-  }, [favoriteCities]);
+  }, [favoriteCities, fetchAndSetFavoriteCitiesWeather]);
 
   return (
     <div className="flex flex-col flex-wrap gap-3 min-w-[280px] ">
