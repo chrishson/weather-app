@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Weather App",
-  description: "A weather app built with Next.js and Tailwind CSS",
+  description: "A weather app built with NextJS",
 };
 
 export default function RootLayout({
@@ -20,6 +20,7 @@ export default function RootLayout({
   return (
     // Suppressing hydration warning due to ThemeProvider
     <html lang="en" suppressHydrationWarning>
+      <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
       <body
         className={`${inter.className}, flex flex-col min-h-screen antialiased`}
       >

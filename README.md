@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a Weather App built with NextJS 14.x. It fetches real time weather data from [OpenWeatherMap's API](https://openweathermap.org/api) and uses [Google's Place Autocomplete API](https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete) to assist with searching.
 
-## Getting Started
+Note: I have limited requests to the OpenWeatherMap API to 1000 requests a day due to cost. Please message me if it isn't working.
 
-First, run the development server:
+## Core Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Search for real time weather data of a city. See the current weather and time, as well as a 7 day forecast.
+- Favorite / Unfavorite up to 4 cities for a quick glimpse of their weather and time.
+- Light and Dark Theme
+- Celsius/Fahrenheit toggle
+- Mobile Responsive
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Keys Required
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [One Call API 3.0 Key](https://openweathermap.org/api/one-call-3) from Open Weather Map
+- [Google API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) with the following services enabled: Geocoding API, Maps JavaScript API, Places API
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Running the App Locally
 
-## Learn More
+Follow these steps to run the app on your local machine:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   Use the following command to clone the repository to your local machine:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```bash
+   git clone git@github.com:chrishson/weather-app.git
+   ```
 
-## Deploy on Vercel
+2. Ensure you are using `Node 21.x` or greater
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Install the dependencies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   npm install
+   ```
+
+4. Setup environment variables
+
+   Rename the `.env.example` file in the root directory to `.env.local`.
+
+   Open `.env.local` and replace the placeholder values with your actual keys.
+
+5. Start the development server
+
+   ```bash
+   npm run dev
+   ```
+
+6. Access the app
+   Open your web browser and navigate to http://localhost:3000 to see the Weather App running locally.
