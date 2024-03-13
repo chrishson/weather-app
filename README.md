@@ -9,6 +9,8 @@ Note: I have limited requests to the OpenWeatherMap API to 1000 requests a day d
 - Light and Dark Theme
 - Celsius/Fahrenheit toggle
 - Mobile Responsive
+<img width="1512" alt="Screenshot 2024-03-13 at 2 53 38 PM" src="https://github.com/chrishson/weather-app/assets/17053400/1d9135f9-6a36-42e3-9643-b6f7776fb2c5">
+<img width="1512" alt="Screenshot 2024-03-13 at 2 54 09 PM" src="https://github.com/chrishson/weather-app/assets/17053400/0b489861-17f0-4bc4-a4c3-22ba5dd1ef0e">
 
 ## API Keys Required
 
