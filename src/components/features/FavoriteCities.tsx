@@ -19,13 +19,9 @@ export default function FavoriteCities() {
     const favoriteCitiesWeatherState = await fetchFavoriteCitiesWeather(
       favoriteCities
     );
-    setLoadingState(false);
     setFavoriteCitiesWeather(favoriteCitiesWeatherState);
-  }, [
-    favoriteCities,
-    setLoadingState,
-    setFavoriteCitiesWeather,
-  ]);
+    setLoadingState(false);
+  }, [favoriteCities, setLoadingState, setFavoriteCitiesWeather]);
 
   useEffect(() => {
     fetchAndSetFavoriteCitiesWeather();
