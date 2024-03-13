@@ -6,6 +6,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+import { Input } from "../ui/input";
 
 // Most of this code is from the use-places-autocomplete documentation.
 export default function SearchBox() {
@@ -44,7 +45,7 @@ export default function SearchBox() {
     () => {
       // When the user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
-      setValue(description, false);
+      setValue("", false);
       clearSuggestions();
 
       // Get latitude and longitude via utility functions
@@ -79,12 +80,12 @@ export default function SearchBox() {
   return (
     // TODO: Add Search Icon
     <div className="relative w-full md:w-auto md:min-w-[280px]">
-      <input
-        className="p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+      <Input
+        type="email"
+        placeholder="Search City"
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder=""
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (

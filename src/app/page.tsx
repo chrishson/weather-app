@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <main className="container flex flex-col h-screen p-2 pb-16 pt-4">
       <div className="flex w-full items-center justify-end gap-3 pb-4">
-        <ThemeToggleButton />
         <RefreshButton />
+        <ThemeToggleButton />
         <SearchBox />
       </div>
       <div className="flex flex-col md:flex-row flex-grow gap-3 pb-4">
