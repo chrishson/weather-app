@@ -20,7 +20,12 @@ import { useEffect } from "react";
 import { fetchCityWeather } from "@/lib/utils";
 
 export default function FocusedWeather() {
-  const { cityWeather, setCityWeatherData } = useFocusedWeatherState();
+  const {
+    isLoading: isFocusedWeatherLoading,
+    cityWeather,
+    setCityWeatherData,
+    setLoadingState,
+  } = useFocusedWeatherState();
   const { isLoading: isFavoriteCitiesLoading, favoriteCitiesWeather } =
     useFavoriteCitiesStore();
 
@@ -30,14 +35,16 @@ export default function FocusedWeather() {
     cityName: string,
     countryShortName: string
   ) => {
+    setLoadingState(true);
     const data = await fetchCityWeather(lat, lng);
     setCityWeatherData({ ...data, cityName, countryShortName });
+    setLoadingState(false);
   };
 
   useEffect(() => {
-    // If favorite cities are still loading, return.
-    if (isFavoriteCitiesLoading) return;
-    if (!cityWeather) {
+    console.log(isFocusedWeatherLoading, "isFocusedWeatherLoading");
+    // If loading, do nothing;
+    if (!isFavoriteCitiesLoading && !isFocusedWeatherLoading && !cityWeather) {
       // If there is no focused city, set the first favorite city as focused.
       if (favoriteCitiesWeather[0]) {
         setCityWeatherData(favoriteCitiesWeather[0]);
@@ -51,11 +58,14 @@ export default function FocusedWeather() {
         );
       }
     }
-  }, [favoriteCitiesWeather, isFavoriteCitiesLoading]);
+  }, [favoriteCitiesWeather, isFavoriteCitiesLoading, isFocusedWeatherLoading]);
 
   return (
     <Card className="cursor-pointer w-full h-full cursor-default">
-      {cityWeather && (
+      {isFavoriteCitiesLoading || isFocusedWeatherLoading && (
+        <div className="w-full h-full">Loading...</div>
+      )}
+      {!isFocusedWeatherLoading && cityWeather && (
         <>
           <CardHeader className="pb-0 pt-3">
             <CardTitle className="flex justify-between items-center text-5xl">

@@ -10,7 +10,7 @@ import { Input } from "../ui/input";
 
 // Most of this code is from the use-places-autocomplete documentation.
 export default function SearchBox() {
-  const { setCityWeatherData } = useFocusedWeatherState();
+  const { setCityWeatherData, setLoadingState } = useFocusedWeatherState();
   const {
     ready,
     value,
@@ -36,8 +36,10 @@ export default function SearchBox() {
     cityName: string,
     countryShortName: string
   ) => {
+    setLoadingState(true);
     const data = await fetchCityWeather(lat, lng);
     setCityWeatherData({ ...data, cityName, countryShortName });
+    setLoadingState(false);
   };
 
   const handleSelect =

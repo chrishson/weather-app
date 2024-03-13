@@ -7,26 +7,35 @@ import { SlRefresh } from "react-icons/sl";
 import { Button } from "../ui/button";
 
 export default function RefreshButton() {
-  const { cityWeather, setCityWeatherData } = useFocusedWeatherState();
-  const { favoriteCities, setFavoriteCitiesWeather, setLoadingState } =
-    useFavoriteCitiesStore();
+  const {
+    cityWeather,
+    setCityWeatherData,
+    setLoadingState: setFocusedWeatherLoadingState,
+  } = useFocusedWeatherState();
+  const {
+    favoriteCities,
+    setFavoriteCitiesWeather,
+    setLoadingState: setFavoriteCitiesLoadingState,
+  } = useFavoriteCitiesStore();
 
   const fetchAndSetCityWeather = async () => {
     if (!cityWeather) return;
+    setFocusedWeatherLoadingState(true);
     const data = await fetchCityWeather(cityWeather.lat, cityWeather.lon);
     setCityWeatherData({
       ...data,
       cityName: cityWeather.cityName,
       countryShortName: cityWeather.countryShortName,
     });
+    setFocusedWeatherLoadingState(false);
   };
 
   const fetchAndSetFavoriteCitiesWeather = async () => {
-    setLoadingState(true);
+    setFavoriteCitiesLoadingState(true);
     const favoriteCitiesWeatherState = await fetchFavoriteCitiesWeather(
       favoriteCities
     );
-    setLoadingState(false);
+    setFavoriteCitiesLoadingState(false);
     setFavoriteCitiesWeather(favoriteCitiesWeatherState);
   };
 
