@@ -6,6 +6,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
 import { Input } from "../ui/input";
 
 // Most of this code is from the use-places-autocomplete documentation.
@@ -23,6 +24,10 @@ export default function SearchBox() {
       types: ["(cities)"],
     },
     debounce: 300,
+  });
+  const ref = useOnclickOutside(() => {
+    // When the user clicks outside of the component, call it to clear and reset the suggestions data
+    clearSuggestions();
   });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +77,7 @@ export default function SearchBox() {
         <li
           key={place_id}
           onClick={handleSelect(suggestion)}
-          className="p-2 hover:bg-gray-200 cursor-pointer"
+          className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer dark:text-white"
         >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
@@ -80,8 +85,7 @@ export default function SearchBox() {
     });
 
   return (
-    // TODO: Add Search Icon
-    <div className="relative w-full md:w-auto md:min-w-[280px]">
+    <div className="relative w-full md:w-auto md:min-w-[280px]" ref={ref}>
       <Input
         type="email"
         placeholder="Search City"
@@ -91,7 +95,7 @@ export default function SearchBox() {
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (
-        <ul className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 w-full">
+        <ul className="absolute mt-1 bg-white dark:bg-black border border-white dark:border-white rounded-md shadow-lg z-10 w-full">
           {renderSuggestions()}
         </ul>
       )}
