@@ -1,8 +1,6 @@
 This is a Weather App built with NextJS 14.x. It fetches real time weather data from [OpenWeatherMap's API](https://openweathermap.org/api) and uses [Google's Place Autocomplete API](https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete) to assist with searching.
 
 Note: I have limited requests to the OpenWeatherMap API to 1000 requests a day due to cost. Please message me if it isn't working.
-![Screenshot 2024-03-13 at 2 49 57 PM](https://github.com/chrishson/weather-app/assets/17053400/e5e0483f-2340-4bf9-9c48-cba56bcd4aa3)
-![Screenshot 2024-03-13 at 2 50 12 PM](https://github.com/chrishson/weather-app/assets/17053400/8db3cee1-a3ef-47d0-b59c-b9b2a96eadf8)
 
 ## Core Features
 
