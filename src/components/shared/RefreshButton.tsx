@@ -35,8 +35,8 @@ export default function RefreshButton() {
     const favoriteCitiesWeatherState = await fetchFavoriteCitiesWeather(
       favoriteCities
     );
-    setFavoriteCitiesLoadingState(false);
     setFavoriteCitiesWeather(favoriteCitiesWeatherState);
+    setFavoriteCitiesLoadingState(false);
   };
 
   const handleRefresh = async () => {

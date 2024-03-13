@@ -18,6 +18,7 @@ import CurrentForecast from "./CurrentForecast";
 import FavoriteButton from "../shared/FavoriteButton";
 import { useEffect } from "react";
 import { fetchCityWeather } from "@/lib/utils";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 export default function FocusedWeather() {
   const {
@@ -42,7 +43,6 @@ export default function FocusedWeather() {
   };
 
   useEffect(() => {
-    console.log(isFocusedWeatherLoading, "isFocusedWeatherLoading");
     // If loading, do nothing;
     if (!isFavoriteCitiesLoading && !isFocusedWeatherLoading && !cityWeather) {
       // If there is no focused city, set the first favorite city as focused.
@@ -62,10 +62,7 @@ export default function FocusedWeather() {
 
   return (
     <Card className="cursor-pointer w-full h-full cursor-default">
-      {isFavoriteCitiesLoading || isFocusedWeatherLoading && (
-        <div className="w-full h-full">Loading...</div>
-      )}
-      {!isFocusedWeatherLoading && cityWeather && (
+      {!isFocusedWeatherLoading && cityWeather ? (
         <>
           <CardHeader className="pb-0 pt-3">
             <CardTitle className="flex justify-between items-center text-5xl">
@@ -73,7 +70,6 @@ export default function FocusedWeather() {
               <FavoriteButton />
             </CardTitle>
             <CardDescription className="text-2xl">
-              {/* TODO: Show Loading, if time is not set. */}
               {cityWeather && <DayTime timezone={cityWeather.timezone} />}
             </CardDescription>
           </CardHeader>
@@ -85,6 +81,10 @@ export default function FocusedWeather() {
             />
           </CardContent>
         </>
+      ) : (
+        <div className="w-full h-full flex justify-center items-center">
+          <LoadingSpinner />
+        </div>
       )}
     </Card>
   );
