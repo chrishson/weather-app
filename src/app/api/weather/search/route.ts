@@ -13,8 +13,6 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const lat = searchParams.get("lat");
   const lon = searchParams.get("lon");
-  const type = searchParams.get("type");
-
   if (!apiKey) {
     return Response.json(
       { message: "OpenWeather API key missing." },
@@ -29,19 +27,14 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // TODO: Make units configurable
-  const defaultUnit = "metric";
-
   const defaultExclude = [
     ExcludeTypes.MINUTELY,
     ExcludeTypes.HOURLY,
     ExcludeTypes.ALERTS,
-    // Exclude daily weather data if type is "current"
-    type === "current" ? ExcludeTypes.DAILY : "",
   ];
 
   const res = await fetch(
-    `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${defaultExclude}&units=${defaultUnit}&appid=${apiKey}`,
+    `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${defaultExclude}&units=metric&appid=${apiKey}`,
     {
       // Revalidate every 60 seconds
       next: { revalidate: 60 },

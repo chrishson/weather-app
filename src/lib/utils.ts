@@ -22,6 +22,14 @@ export function roundTemperature(temp: number) {
   return Math.round(temp);
 }
 
+export function getTemperatureByUnit(temp: number, unit: string) {
+  if (unit === "metric") {
+    return `${roundTemperature(temp)}°C`;
+  }
+  const imperalTemp = (temp * 9) / 5 + 32;
+  return `${roundTemperature(imperalTemp)}°F`;
+}
+
 export function getCityCountryCode(cityName: string, countryShortName: string) {
   return `${cityName}-${countryShortName}`;
 }
