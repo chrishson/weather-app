@@ -1,12 +1,33 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { CityWeather, FavoriteCity } from "./types";
+import { getCityCountryCode } from "@/lib/utils";
 
-// TODO: Put Limit on Favorite Cities
+export const DEFAULT_FAVORITE_CITIES = [
+  {
+    cityName: "Vancouver",
+    countryShortName: "CA",
+    lat: 49.2827,
+    lon: -123.1207,
+  },
+  {
+    cityName: "London",
+    countryShortName: "GB",
+    lat: 51.5072,
+    lon: -0.1276,
+  },
+  {
+    cityName: "Seoul",
+    countryShortName: "KR",
+    lat: 37.5518911,
+    lon: 126.9917937,
+  },
+];
 
 type FavoriteCitiesState = {
   favoriteCities: FavoriteCity[];
   favoriteCitiesWeather: CityWeather[];
+  isLoading: boolean;
   addFavoriteCity: (
     cityName: string,
     countryShortName: string,
@@ -15,39 +36,18 @@ type FavoriteCitiesState = {
   ) => void;
   removeFavoriteCity: (cityName: string, countryShortName: string) => void;
   setFavoriteCitiesWeather: (weatherData: CityWeather[]) => void;
+  setLoadingState: (state: boolean) => void;
 };
 
 // Initial Cities in Favorites List if user hasn't added/removed any.
 const initialState: {
   favoriteCities: FavoriteCity[];
   favoriteCitiesWeather: CityWeather[];
+  isLoading: boolean;
 } = {
-  favoriteCities: [
-    {
-      cityName: "Seoul",
-      countryShortName: "KR",
-      lat: 37.5518911,
-      lon: 126.9917937,
-    },
-    {
-      cityName: "Vancouver",
-      countryShortName: "CA",
-      lat: 49.2827,
-      lon: -123.1207,
-    },
-    {
-      cityName: "London",
-      countryShortName: "GB",
-      lat: 51.5072,
-      lon: -0.1276,
-    },
-  ],
+  favoriteCities: DEFAULT_FAVORITE_CITIES,
   favoriteCitiesWeather: [],
-};
-
-// TODO: Extract Util function to get unique city/country code.
-const getCityCountryCode = (cityName: string, countryShortName: string) => {
-  return `${cityName}-${countryShortName}`;
+  isLoading: true,
 };
 
 // Persisting Favorite Cities in Local Storage
@@ -97,6 +97,7 @@ export const useFavoriteCitiesStore = create<FavoriteCitiesState>()(
           };
         });
       },
+      setLoadingState: (state) => set(() => ({ isLoading: state })),
     }),
     {
       name: "favorite-city-ids",

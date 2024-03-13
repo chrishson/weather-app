@@ -17,7 +17,7 @@ export default function WeekdayCard({
       className="p-4 border border-gray-200 rounded-md shadow-sm w-32"
     >
       <p className="text-center font-bold text-lg">{weekday}</p>
-      <p className="text-sm text-center h-8">
+      <p className="text-center h-8">
         {dailyWeather.weather[0].description}
       </p>
       <WeatherIcon

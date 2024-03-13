@@ -1,3 +1,4 @@
+import { FavoriteCity } from "@/stores/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -19,4 +20,31 @@ export function getTime(datetime: number, timezone: string) {
 
 export function roundTemperature(temp: number) {
   return Math.round(temp);
+}
+
+export function getCityCountryCode(cityName: string, countryShortName: string) {
+  return `${cityName}-${countryShortName}`;
+}
+
+export async function fetchCityWeather(lat: number, lng: number) {
+  const response = await fetch(`/api/weather/search?lat=${lat}&lon=${lng}`);
+  return response.json();
+}
+
+export async function fetchFavoriteCitiesWeather(
+  favoriteCities: FavoriteCity[]
+) {
+  const favoriteCityWeatherPromises = favoriteCities.map((favoriteCity) => {
+    return fetchCityWeather(favoriteCity.lat, favoriteCity.lon);
+  });
+
+  const results = await Promise.all(favoriteCityWeatherPromises);
+
+  return results.map((result, index) => {
+    return {
+      ...result,
+      cityName: favoriteCities[index].cityName,
+      countryShortName: favoriteCities[index].countryShortName,
+    };
+  });
 }

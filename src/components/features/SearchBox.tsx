@@ -1,14 +1,17 @@
 "use client";
 
+import { fetchCityWeather } from "@/lib/utils";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
+import { Input } from "../ui/input";
 
 // Most of this code is from the use-places-autocomplete documentation.
 export default function SearchBox() {
-  const { setCityWeatherData } = useFocusedWeatherState();
+  const { setCityWeatherData, setLoadingState } = useFocusedWeatherState();
   const {
     ready,
     value,
@@ -22,23 +25,26 @@ export default function SearchBox() {
     },
     debounce: 300,
   });
-
-  const fetchData = async (
-    cityName: string,
-    countryShortName: string,
-    lat: number,
-    lng: number
-  ) => {
-    const response = await fetch(`/api/weather/search?lat=${lat}&lon=${lng}`);
-
-    const data = await response.json();
-
-    setCityWeatherData({ ...data, cityName, countryShortName });
-  };
+  const ref = useOnclickOutside(() => {
+    // When the user clicks outside of the component, call it to clear and reset the suggestions data
+    clearSuggestions();
+  });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the keyword of the input element
     setValue(e.target.value);
+  };
+
+  const fetchAndSetCityWeather = async (
+    lat: number,
+    lng: number,
+    cityName: string,
+    countryShortName: string
+  ) => {
+    setLoadingState(true);
+    const data = await fetchCityWeather(lat, lng);
+    setCityWeatherData({ ...data, cityName, countryShortName });
+    setLoadingState(false);
   };
 
   const handleSelect =
@@ -46,7 +52,7 @@ export default function SearchBox() {
     () => {
       // When the user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
-      setValue(description, false);
+      setValue("", false);
       clearSuggestions();
 
       // Get latitude and longitude via utility functions
@@ -56,7 +62,7 @@ export default function SearchBox() {
         const countryShortName =
           addressComponents[addressComponents.length - 1].short_name;
         const { lat, lng } = getLatLng(results[0]);
-        fetchData(cityName, countryShortName, lat, lng);
+        fetchAndSetCityWeather(lat, lng, cityName, countryShortName);
       });
     };
 
@@ -71,7 +77,7 @@ export default function SearchBox() {
         <li
           key={place_id}
           onClick={handleSelect(suggestion)}
-          className="p-2 hover:bg-gray-200 cursor-pointer"
+          className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer dark:text-white"
         >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
@@ -79,18 +85,17 @@ export default function SearchBox() {
     });
 
   return (
-    // TODO: Add Search Icon
-    <div className="relative w-full md:w-auto md:min-w-[280px]">
-      <input
-        className="p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+    <div className="relative w-full md:w-auto md:min-w-[280px]" ref={ref}>
+      <Input
+        type="email"
+        placeholder="Search City"
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder=""
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (
-        <ul className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 w-full">
+        <ul className="absolute mt-1 bg-white dark:bg-black border border-white dark:border-white rounded-md shadow-lg z-10 w-full">
           {renderSuggestions()}
         </ul>
       )}

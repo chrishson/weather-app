@@ -3,42 +3,32 @@
 import { useFavoriteCitiesStore } from "@/stores/favoriteCitiesStore";
 import { useEffect } from "react";
 import FavoriteCityCard from "../shared/FavoriteCityCard";
-import { FavoriteCity } from "@/stores/types";
+import { fetchFavoriteCitiesWeather } from "@/lib/utils";
 
 export default function FavoriteCities() {
-  const { favoriteCities, favoriteCitiesWeather, setFavoriteCitiesWeather } =
-    useFavoriteCitiesStore();
+  const {
+    isLoading,
+    favoriteCities,
+    favoriteCitiesWeather,
+    setFavoriteCitiesWeather,
+    setLoadingState,
+  } = useFavoriteCitiesStore();
 
-  const fetchData = async () => {
-    const favoriteCityWeatherPromises = favoriteCities.map(
-      (favoriteCity: FavoriteCity) => {
-        return fetch(
-          // Get data for current weather only.
-          `/api/weather/search?lat=${favoriteCity.lat}&lon=${favoriteCity.lon}`
-        ).then((res) => res.json());
-      }
+  const fetchAndSetFavoriteCitiesWeather = async () => {
+    setLoadingState(true);
+    const favoriteCitiesWeatherState = await fetchFavoriteCitiesWeather(
+      favoriteCities
     );
-
-    const results = await Promise.all(favoriteCityWeatherPromises);
-
-    const favoriteCitiesWeatherState = results.map((result, index) => {
-      return {
-        ...result,
-        cityName: favoriteCities[index].cityName,
-        countryShortName: favoriteCities[index].countryShortName,
-      };
-    });
-
+    setLoadingState(false);
     setFavoriteCitiesWeather(favoriteCitiesWeatherState);
   };
 
   useEffect(() => {
-    fetchData();
+    fetchAndSetFavoriteCitiesWeather();
   }, [favoriteCities]);
 
   return (
-    // TODO: Have a Loading / No Favorite Cities Placeholder
-    <div className="flex flex-col flex-wrap gap-3">
+    <div className="flex flex-col flex-wrap gap-3 min-w-[280px] ">
       {favoriteCitiesWeather.length > 0 ? (
         favoriteCitiesWeather.map((cityWeather, index) => {
           return (
@@ -49,7 +39,9 @@ export default function FavoriteCities() {
           );
         })
       ) : (
-        <div className="flex justify-center items-center min-w-[280px] h-full">No Favorite Cities</div>
+        <div className="flex justify-center items-center min-w-[280px] h-full text-3xl">
+          {!isLoading && "No Favorite Cities"}
+        </div>
       )}
     </div>
   );

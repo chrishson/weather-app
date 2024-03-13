@@ -2,8 +2,8 @@ import { getTime, getWeekday } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 function useLocalTime(timezone: string) {
-  const [time, setTime] = useState("");
-  const [day, setDay] = useState("");
+  const [dynamicTime, setDynamicTime] = useState("");
+  const [dynamicDay, setDynamicDay] = useState("");
 
   // Increment by 1 second
   const TIME_INCREMENT = 1000;
@@ -17,8 +17,8 @@ function useLocalTime(timezone: string) {
       const localTime = getTime(seconds, timezone);
       const localDay = getWeekday(seconds, timezone);
 
-      setTime(localTime);
-      setDay(localDay);
+      setDynamicTime(localTime);
+      setDynamicDay(localDay);
     }, TIME_INCREMENT);
 
     return () => {
@@ -26,7 +26,7 @@ function useLocalTime(timezone: string) {
     };
   }, [timezone]);
 
-  return { time, day };
+  return { dynamicTime, dynamicDay };
 }
 
 export default useLocalTime;

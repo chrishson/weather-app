@@ -12,6 +12,7 @@ import DayTime from "./DayTime";
 import { CityWeather } from "@/stores/types";
 import { useFocusedWeatherState } from "@/stores/focusedWeatherStore";
 import { roundTemperature } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 type FavoriteCityCardProps = {
   cityWeather: CityWeather;
@@ -35,21 +36,26 @@ export default function FavoriteCityCard({
   };
 
   return (
-    <Card className="min-w-[280px] cursor-pointer" onClick={handleCardClick}>
-      <CardHeader className="pb-0 pt-4">
-        <CardTitle className="flex justify-between items-center">
-          {cityWeather.cityName}, {cityWeather.countryShortName}
-          <button
-            className="cursor-pointer"
-            onClick={handleRemoveFavoriteCityClick}
-          >
-            <MdFavorite size={24} />
-          </button>
-        </CardTitle>
-        <CardDescription>
-          {/* TODO: Show Loading, if time is not set. */}
-          <DayTime timezone={cityWeather.timezone} />
-        </CardDescription>
+    <Card
+      className="min-w-[280px] cursor-pointer hover:bg-accent dark:hover"
+      onClick={handleCardClick}
+    >
+      <CardHeader className="pb-0 pt-4 flex-row justify-between">
+        <div>
+          <CardTitle className="flex justify-between items-center">
+            {cityWeather.cityName}, {cityWeather.countryShortName}
+          </CardTitle>
+          <CardDescription className="pt-1">
+            <DayTime timezone={cityWeather.timezone} />
+          </CardDescription>
+        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleRemoveFavoriteCityClick}
+        >
+          <MdFavorite size={24} />
+        </Button>
       </CardHeader>
       <CardContent className="pb-3">
         <div className="flex justify-between items-center">

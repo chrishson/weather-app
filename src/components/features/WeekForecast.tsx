@@ -15,7 +15,7 @@ export default function WeekForecast({
   const weekForecast = weekForecastData.slice(0, 7) || [];
   
   return (
-    <div className="flex flex-wrap gap-2 justify-center">
+    <div className="flex flex-wrap pb-4 gap-2 justify-center">
       {weekForecast.map((dailyWeather: DailyWeather, index) => {
         const weekday =
           index === 0 ? "Today" : getWeekday(dailyWeather.dt * 1000, timezone);
